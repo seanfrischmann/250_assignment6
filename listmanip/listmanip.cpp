@@ -1,7 +1,7 @@
 // ============================================================================ 
 // listmanip.cpp
 // ~~~~~~~~~~~~~
-// YOUR NAME
+//Sean Frischmann
 // implement the missing functions
 // ============================================================================ 
 
@@ -15,8 +15,8 @@
 using namespace std; // BAD PRACTICE
 
 extern const string usage_msg = "List Manipulation Toy. Version 0.1\n"
-                                "Author: YOURNAME\n"
-                                "Report bugs to yourid@buffalo.edu";
+                                "Author: Sean Frischmann\n"
+                                "Report bugs to seanfris@buffalo.edu";
 /**
  * -----------------------------------------------------------------------------
  * create a new singly linked list containing keys which are integers from 
