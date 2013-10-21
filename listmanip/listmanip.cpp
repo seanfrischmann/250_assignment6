@@ -17,6 +17,24 @@ using namespace std; // BAD PRACTICE
 extern const string usage_msg = "List Manipulation Toy. Version 0.1\n"
                                 "Author: Sean Frischmann\n"
                                 "Report bugs to seanfris@buffalo.edu";
+//Create a Node helper method
+void newnode(Node* head, int n){
+	Node *temp;
+	Node *prev=NULL;
+	temp = new Node;
+	temp->key = n;
+	if(head==NULL){
+		head=temp;
+	}
+	else{
+		while(head!=NULL){
+			temp= head->next;
+			head->next=prev;
+			prev=head;
+			head=temp;
+		}
+	}
+}
 /**
  * -----------------------------------------------------------------------------
  * create a new singly linked list containing keys which are integers from 
@@ -27,7 +45,18 @@ extern const string usage_msg = "List Manipulation Toy. Version 0.1\n"
 Node* new_list(const vector<Token>& tok_vec)
 {
     // YOUR CODE GOES HERE
-    return NULL; // and don't return NULL unless you have to
+	Node* head;
+	head = new Node;
+	if(!tok_vec.empty()){
+		for(size_t i=0; i<tok_vec.size();i++){
+			string temp = tok_vec.at(i).value;
+			istringstream str(temp);
+			int num;
+			str >> num;
+			newnode(head,num);
+		}
+	}
+    return head; // and don't return NULL unless you have to
 }
 
 /**
