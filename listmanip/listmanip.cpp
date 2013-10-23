@@ -136,6 +136,7 @@ Node* sort_list(Node* head)
 		prev2 = smallest;
 		copyofhead = smallest->next;
 	}
+	head = head->next;
     return head; // and don't return NULL unless you have to
 }
 
