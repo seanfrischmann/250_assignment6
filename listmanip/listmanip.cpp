@@ -28,14 +28,17 @@ Node* new_list(const vector<Token>& tok_vec)
 {
     // YOUR CODE GOES HERE
 	Node* head;
-	head = new Node;
+	istringstream str1(tok_vec.at(tok_vec.size()-1).value);
+	int num1;
+	str1 >> num1;
+	head = new Node(num1);
 	if(!tok_vec.empty()){
-		for(int i=(tok_vec.size()-1); i>-1;i--){
+		for(int i=(tok_vec.size()-2); i>=0;i--){
 			string temp = tok_vec.at(i).value;
-			istringstream str(temp);
-			int num;
-			str >> num;
-			head =new Node(num,head);
+			istringstream str2(temp);
+			int num2;
+			str2 >> num2;
+			head =new Node(num2,head);
 		}
 	}
     return head; // and don't return NULL unless you have to
@@ -102,7 +105,27 @@ Node* merge_lists(Node* head1, Node* head2)
 Node* sort_list(Node* head) 
 {
     // YOUR CODE GOES HERE
-    return NULL; // and don't return NULL unless you have to
+	Node *current=head, *temp=0;
+	int counter=0;
+	while(current!=NULL){
+		current = current->next;
+		counter++;
+	}
+	current=head;
+	for(int i=0;i<counter;i++){
+		while(current->next != NULL){
+			if(current->key > current->next->key){
+				temp = current;
+				current= current->next;
+				current->next = temp;
+			}
+			else{
+				current=current->next;
+			}
+		}
+		current=head;
+	}
+    return head; // and don't return NULL unless you have to
 }
 
 // *****************************************************************************
