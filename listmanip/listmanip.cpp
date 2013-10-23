@@ -104,26 +104,37 @@ Node* merge_lists(Node* head1, Node* head2)
  */
 Node* sort_list(Node* head) 
 {
-    // YOUR CODE GOES HERE
-	Node *current=head, *temp=0;
-	int counter=0;
-	while(current!=NULL){
-		current = current->next;
-		counter++;
-	}
-	current=head;
-	for(int i=0;i<counter;i++){
+    //used variation of selection sort off of Stack Overflow 
+	//and http://www.refcode.net/2013/02/sorting-linked-list-with-selection-sort.html
+	Node *prev1, *prev2, *current, *copyofhead=head, *smallest, *next;
+	while(copyofhead->next != NULL){
+		current=copyofhead;
+		smallest=copyofhead;
 		while(current->next != NULL){
-			if(current->key > current->next->key){
-				temp = current;
-				current= current->next;
-				current->next = temp;
+			if(smallest->key > current->next->key){
+				prev1= current;
+				smallest = current->next;
+			}
+			current = current->next;
+		}
+		if(copyofhead != smallest){
+			if(copyofhead->next == smallest){
+				prev2->next = smallest;
+				copyofhead->next = smallest->next;
+				smallest->next = copyofhead;
 			}
 			else{
-				current=current->next;
+				prev1->next = copyofhead;
+				next = copyofhead->next;
+				copyofhead->next = smallest->next;
+				smallest->next = next;
+				if(copyofhead != head){
+					prev2->next = smallest;
+				}
 			}
 		}
-		current=head;
+		prev2 = smallest;
+		copyofhead = smallest->next;
 	}
     return head; // and don't return NULL unless you have to
 }
