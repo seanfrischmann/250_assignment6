@@ -106,37 +106,44 @@ Node* sort_list(Node* head)
 {
     //used variation of selection sort off of Stack Overflow 
 	//and http://www.refcode.net/2013/02/sorting-linked-list-with-selection-sort.html
-	Node *prev1, *prev2, *current, *copyofhead=head, *smallest, *next;
+	Node *prevsmall, *prevhead, *current, *copyofhead=head, *smallest, *next;
 	while(copyofhead->next != NULL){
 		current=copyofhead;
 		smallest=copyofhead;
 		while(current->next != NULL){
 			if(smallest->key > current->next->key){
-				prev1= current;
+				prevsmall= current;
 				smallest = current->next;
 			}
 			current = current->next;
 		}
 		if(copyofhead != smallest){
 			if(copyofhead->next == smallest){
-				prev2->next = smallest;
+				if(prevhead == NULL){
+					head = smallest;
+				}
+				else{
+					prevhead->next = smallest;
+				}
 				copyofhead->next = smallest->next;
 				smallest->next = copyofhead;
 			}
 			else{
-				prev1->next = copyofhead;
+				if(prevhead == NULL){
+					head = smallest;
+				}
+				else if(copyofhead != head){
+					prevhead->next = smallest;
+				}
+				prevsmall->next = copyofhead;
 				next = copyofhead->next;
 				copyofhead->next = smallest->next;
 				smallest->next = next;
-				if(copyofhead != head){
-					prev2->next = smallest;
-				}
 			}
 		}
-		prev2 = smallest;
+		prevhead = smallest;
 		copyofhead = smallest->next;
 	}
-	head = head->next;
     return head; // and don't return NULL unless you have to
 }
 
