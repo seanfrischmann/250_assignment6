@@ -46,6 +46,44 @@ Node* new_list(const vector<Token>& tok_vec)
 
 /**
  * -----------------------------------------------------------------------------
+ * sort the list pointed to by 'head'
+ * return the pointer to the head of the new list
+ * DO NOT modify the keys, just manipulate the pointers
+ * -----------------------------------------------------------------------------
+ */
+Node* sort_list(Node* head) 
+{
+    //used variation of selection sort off of Stack Overflow 
+	//and http://www.refcode.net/2013/02/sorting-linked-list-with-selection-sort.html
+	Node *prevsmall, *prevhead=NULL, *current, *copyofhead=head, *smallest;
+	while(copyofhead->next != NULL){
+		current=copyofhead;
+		smallest=copyofhead;
+		while(current->next != NULL){
+			if(smallest->key > current->next->key){
+				prevsmall= current;
+				smallest = current->next;
+			}
+			current = current->next;
+		}
+		if(smallest != copyofhead){
+			if(prevhead==NULL){
+				head = smallest;
+			}
+			else{
+				prevhead->next=smallest;
+			}
+			prevsmall->next=smallest->next;
+			smallest->next=copyofhead;
+		}
+		prevhead = smallest;
+		copyofhead = smallest->next;
+	}
+    return head; // and don't return NULL unless you have to
+}
+
+/**
+ * -----------------------------------------------------------------------------
  * given the pointers to the heads of two singly linked lists
  * modify (only the pointers of) the first list so that only the common elements
  * remain. 
@@ -59,8 +97,38 @@ Node* new_list(const vector<Token>& tok_vec)
  */
 Node* keep_common(Node* head1, Node* head2)
 {
+	sort_list(head1);
+	sort_list(head2);
     // YOUR CODE GOES HERE
-    return NULL; // and don't return NULL unless you have to
+	Node *prev=head1, *current=head1, *copyofhead2;
+	while(prev->next != NULL){
+		bool exists = false;
+		copyofhead2 = head2;
+		while(copyofhead2 != NULL){
+			if(copyofhead2->key == current->key){
+				exists = true;
+			}
+			copyofhead2 = copyofhead2->next;
+		}
+		if(!exists){
+			if(prev==current){
+				prev = prev->next;
+				current->next = NULL;
+				current = prev;
+				head1 = current;
+			}
+			else{
+				prev->next = current->next;
+				current->next = NULL;
+				current = prev->next;
+			}
+		}
+		else{
+			prev=current;
+			current=prev->next;
+		}
+	}
+    return head1;
 }
 
 
@@ -76,6 +144,7 @@ Node* keep_common(Node* head1, Node* head2)
  */
 Node* remove_duplicates(Node* head)
 {
+	sort_list(head);
     // YOUR CODE GOES HERE
 	Node *next, *prev, *current;
 	next = head;
@@ -111,46 +180,39 @@ Node* remove_duplicates(Node* head)
  */
 Node* merge_lists(Node* head1, Node* head2) 
 {
+	sort_list(head1);
+	sort_list(head2);
     // YOUR CODE GOES HERE
-    return NULL; // and don't return NULL unless you have to
-}
-
-/**
- * -----------------------------------------------------------------------------
- * sort the list pointed to by 'head'
- * return the pointer to the head of the new list
- * DO NOT modify the keys, just manipulate the pointers
- * -----------------------------------------------------------------------------
- */
-Node* sort_list(Node* head) 
-{
-    //used variation of selection sort off of Stack Overflow 
-	//and http://www.refcode.net/2013/02/sorting-linked-list-with-selection-sort.html
-	Node *prevsmall, *prevhead=NULL, *current, *copyofhead=head, *smallest;
-	while(copyofhead->next != NULL){
-		current=copyofhead;
-		smallest=copyofhead;
-		while(current->next != NULL){
-			if(smallest->key > current->next->key){
-				prevsmall= current;
-				smallest = current->next;
-			}
-			current = current->next;
-		}
-		if(smallest != copyofhead){
-			if(prevhead==NULL){
-				head = smallest;
+	Node *prev, *current, *copy=head2, *copyprev=head2;
+	while(copyprev != NULL){
+		bool exit = false;
+		current=head1;
+		prev=head1;
+		while(!exit){
+			if((current == NULL) || (current->key > copy->key)){
+				if(prev == current){
+					copy = copy->next;
+					copyprev->next = current;
+					head1 = copyprev;
+					copyprev = copy;
+					break;
+				}
+				else{
+					copy = copy->next;
+					prev->next = copyprev;
+					copyprev->next = current;
+					copyprev = copy;
+					break;
+				}
 			}
 			else{
-				prevhead->next=smallest;
+				prev = current;
+				current = current->next;
 			}
-			prevsmall->next=smallest->next;
-			smallest->next=copyofhead;
 		}
-		prevhead = smallest;
-		copyofhead = smallest->next;
 	}
-    return head; // and don't return NULL unless you have to
+	remove_duplicates(head1);
+    return head1; 
 }
 
 // *****************************************************************************
