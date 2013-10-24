@@ -53,8 +53,6 @@ Node* new_list(const vector<Token>& tok_vec)
  */
 Node* sort_list(Node* head) 
 {
-    //used variation of selection sort off of Stack Overflow 
-	//and http://www.refcode.net/2013/02/sorting-linked-list-with-selection-sort.html
 	Node *prevsmall, *prevhead=NULL, *current, *copyofhead=head, *smallest;
 	while(copyofhead->next != NULL){
 		current=copyofhead;
