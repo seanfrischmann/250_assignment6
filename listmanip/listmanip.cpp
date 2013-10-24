@@ -77,7 +77,27 @@ Node* keep_common(Node* head1, Node* head2)
 Node* remove_duplicates(Node* head)
 {
     // YOUR CODE GOES HERE
-    return NULL; // and don't return NULL unless you have to
+	Node *next, *prev, *current;
+	next = head;
+	current = head;
+	while(current->next != NULL){
+		next=current->next;
+		if(current->key==next->key){
+			current->next=next->next;
+			next->next = NULL;
+			
+		}
+		if(current->next !=NULL){
+			prev=current;
+			current=current->next;
+		}
+		else{break;}
+		if(prev->key==current->key){
+			prev->next=current->next;
+			current = prev;
+		}
+	}
+    return head;
 }
 
 /**
