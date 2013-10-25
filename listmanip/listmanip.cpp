@@ -97,6 +97,8 @@ Node* keep_common(Node* head1, Node* head2)
 {
 	sort_list(head1);
 	sort_list(head2);
+	remove_duplicates(head1);
+	remove_duplicates(head2);
     // YOUR CODE GOES HERE
 	Node *prev=head1, *current=head1, *copyofhead2;
 	while(prev->next != NULL){
