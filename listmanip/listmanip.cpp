@@ -211,7 +211,6 @@ Node* merge_lists(Node* head1, Node* head2)
 			}
 		}
 	}
-	remove_duplicates(head1);
     return head1; 
 }
 
